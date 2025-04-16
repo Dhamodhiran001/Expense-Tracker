@@ -63,7 +63,7 @@ public class ExpenseTracker {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        int choice;
+        int choice=0;
 
         do {
             System.out.println("\nExpense Tracker Menu:");

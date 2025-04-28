@@ -6,7 +6,7 @@ class Expense {
     private int id;
     private double amount;
     private String category;
-    private String date; // Format: YYYY-MM-DD
+    private String date; 
     private String description;
     private String paymentMethod;
     private String vendor;

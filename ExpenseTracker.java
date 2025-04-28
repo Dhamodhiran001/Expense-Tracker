@@ -34,7 +34,7 @@ class Expense {
     }
 }
 
-public class ExpenseTracker2 {
+public class ExpenseTracker {
     private static List<Expense> expenses = new ArrayList<>();
     private static int nextId = 1;
     private static double budget = 0.0; // Variable to store the budget

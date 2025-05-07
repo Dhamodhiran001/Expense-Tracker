@@ -6,7 +6,7 @@ class Expense {
     private int id;
     private double amount;
     private String category;
-    private String date; 
+    private String date;
     private String description;
     private String paymentMethod;
     private String vendor;
@@ -34,10 +34,54 @@ class Expense {
     }
 }
 
+class FoodExpense extends Expense {
+    private String mealType; 
+
+    public FoodExpense(int id, double amount, String date, String description, String paymentMethod, String vendor, String mealType) {
+        super(id, amount, "Food", date, description, paymentMethod, vendor);
+        this.mealType = mealType;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "\t" + mealType;
+    }
+}
+
+
+class EntertainmentExpense extends Expense {
+    private String eventName; 
+
+    public EntertainmentExpense(int id, double amount, String date, String description, String paymentMethod, String vendor, String eventName) {
+        super(id, amount, "Entertainment", date, description, paymentMethod, vendor);
+        this.eventName = eventName;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "\t" + eventName;
+    }
+}
+
+
+class UtilityExpense extends Expense {
+    private String utilityType; 
+
+    public UtilityExpense(int id, double amount, String date, String description, String paymentMethod, String vendor, String utilityType) {
+        super(id, amount, "Utility", date, description, paymentMethod, vendor);
+        this.utilityType = utilityType;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "\t" + utilityType;
+    }
+}
+
 public class ExpenseTracker {
     private static List<Expense> expenses = new ArrayList<>();
     private static int nextId = 1;
-    private static double budget = 0.0; // Variable to store the budget
+    private static double budget = 0.0;
 
     public static void setBudget(Scanner scanner) {
         System.out.print("Enter your budget amount: ");
@@ -49,13 +93,11 @@ public class ExpenseTracker {
         }
     }
 
+    
     public static void addExpense(Scanner scanner) {
         try {
             System.out.print("Enter amount: ");
             double amount = Double.parseDouble(scanner.nextLine());
-
-            System.out.print("Enter category: ");
-            String category = scanner.nextLine();
 
             System.out.print("Enter date (YYYY-MM-DD): ");
             String date = scanner.nextLine();
@@ -69,8 +111,36 @@ public class ExpenseTracker {
             System.out.print("Enter vendor: ");
             String vendor = scanner.nextLine();
 
-            Expense e = new Expense(nextId++, amount, category, date, description, paymentMethod, vendor);
-            expenses.add(e);
+            System.out.println("Choose type of expense:");
+            System.out.println("1. Food");
+            System.out.println("2. Entertainment");
+            System.out.println("3. Utility");
+            int choice = Integer.parseInt(scanner.nextLine());
+
+            Expense expense = null;
+
+            switch (choice) {
+                case 1:  // Food Expense
+                    System.out.print("Enter meal type (e.g., breakfast, lunch, dinner): ");
+                    String mealType = scanner.nextLine();
+                    expense = new FoodExpense(nextId++, amount, date, description, paymentMethod, vendor, mealType);
+                    break;
+                case 2:  // Entertainment Expense
+                    System.out.print("Enter event name (e.g., concert, movie): ");
+                    String eventName = scanner.nextLine();
+                    expense = new EntertainmentExpense(nextId++, amount, date, description, paymentMethod, vendor, eventName);
+                    break;
+                case 3:  // Utility Expense
+                    System.out.print("Enter utility type (e.g., electricity, water): ");
+                    String utilityType = scanner.nextLine();
+                    expense = new UtilityExpense(nextId++, amount, date, description, paymentMethod, vendor, utilityType);
+                    break;
+                default:
+                    System.out.println("Invalid choice. Expense not added.");
+                    return;
+            }
+
+            expenses.add(expense);
             System.out.println("Expense added successfully.");
         } catch (Exception e) {
             System.out.println("Invalid input. Please try again.");
@@ -81,7 +151,7 @@ public class ExpenseTracker {
         if (expenses.isEmpty()) {
             System.out.println("No expenses to show.");
         } else {
-            System.out.println("ID\tAmount\tCategory\tDate\t\tDescription\tPayment\tVendor");
+            System.out.println("ID\tAmount\tCategory\tDate\t\tDescription\tPayment\tVendor\tDetails");
             for (Expense e : expenses) {
                 System.out.println(e);
             }
